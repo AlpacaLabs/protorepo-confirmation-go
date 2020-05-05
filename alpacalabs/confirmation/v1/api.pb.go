@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	math "math"
 )
@@ -23,102 +22,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type EmailAddressConfirmationCode struct {
-	// primary key
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// the email address associated with this code
-	EmailAddressId string `protobuf:"bytes,2,opt,name=email_address_id,json=emailAddressId,proto3" json:"email_address_id,omitempty"`
-	// a randomly generated code
-	Code string `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty"`
-	// when the code was generated
-	CreatedAt *timestamp.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	// when the code expires
-	ExpiresAt *timestamp.Timestamp `protobuf:"bytes,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	// indicates whether a code has been used. Once used, all codes
-	// that belong to the account become stale.
-	Used bool `protobuf:"varint,6,opt,name=used,proto3" json:"used,omitempty"`
-	// if true, this code cannot be used. When a user uses a code,
-	// all previously issued codes are rendered stale.
-	Stale                bool     `protobuf:"varint,7,opt,name=stale,proto3" json:"stale,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *EmailAddressConfirmationCode) Reset()         { *m = EmailAddressConfirmationCode{} }
-func (m *EmailAddressConfirmationCode) String() string { return proto.CompactTextString(m) }
-func (*EmailAddressConfirmationCode) ProtoMessage()    {}
-func (*EmailAddressConfirmationCode) Descriptor() ([]byte, []int) {
-	return fileDescriptor_11f033f3a571f82c, []int{0}
-}
-
-func (m *EmailAddressConfirmationCode) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EmailAddressConfirmationCode.Unmarshal(m, b)
-}
-func (m *EmailAddressConfirmationCode) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EmailAddressConfirmationCode.Marshal(b, m, deterministic)
-}
-func (m *EmailAddressConfirmationCode) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EmailAddressConfirmationCode.Merge(m, src)
-}
-func (m *EmailAddressConfirmationCode) XXX_Size() int {
-	return xxx_messageInfo_EmailAddressConfirmationCode.Size(m)
-}
-func (m *EmailAddressConfirmationCode) XXX_DiscardUnknown() {
-	xxx_messageInfo_EmailAddressConfirmationCode.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EmailAddressConfirmationCode proto.InternalMessageInfo
-
-func (m *EmailAddressConfirmationCode) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *EmailAddressConfirmationCode) GetEmailAddressId() string {
-	if m != nil {
-		return m.EmailAddressId
-	}
-	return ""
-}
-
-func (m *EmailAddressConfirmationCode) GetCode() string {
-	if m != nil {
-		return m.Code
-	}
-	return ""
-}
-
-func (m *EmailAddressConfirmationCode) GetCreatedAt() *timestamp.Timestamp {
-	if m != nil {
-		return m.CreatedAt
-	}
-	return nil
-}
-
-func (m *EmailAddressConfirmationCode) GetExpiresAt() *timestamp.Timestamp {
-	if m != nil {
-		return m.ExpiresAt
-	}
-	return nil
-}
-
-func (m *EmailAddressConfirmationCode) GetUsed() bool {
-	if m != nil {
-		return m.Used
-	}
-	return false
-}
-
-func (m *EmailAddressConfirmationCode) GetStale() bool {
-	if m != nil {
-		return m.Stale
-	}
-	return false
-}
-
 type ConfirmEmailAddressRequest struct {
 	// a randomly generated code
 	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -133,7 +36,7 @@ func (m *ConfirmEmailAddressRequest) Reset()         { *m = ConfirmEmailAddressR
 func (m *ConfirmEmailAddressRequest) String() string { return proto.CompactTextString(m) }
 func (*ConfirmEmailAddressRequest) ProtoMessage()    {}
 func (*ConfirmEmailAddressRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_11f033f3a571f82c, []int{1}
+	return fileDescriptor_11f033f3a571f82c, []int{0}
 }
 
 func (m *ConfirmEmailAddressRequest) XXX_Unmarshal(b []byte) error {
@@ -178,7 +81,7 @@ func (m *ConfirmEmailAddressResponse) Reset()         { *m = ConfirmEmailAddress
 func (m *ConfirmEmailAddressResponse) String() string { return proto.CompactTextString(m) }
 func (*ConfirmEmailAddressResponse) ProtoMessage()    {}
 func (*ConfirmEmailAddressResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_11f033f3a571f82c, []int{2}
+	return fileDescriptor_11f033f3a571f82c, []int{1}
 }
 
 func (m *ConfirmEmailAddressResponse) XXX_Unmarshal(b []byte) error {
@@ -199,10 +102,91 @@ func (m *ConfirmEmailAddressResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ConfirmEmailAddressResponse proto.InternalMessageInfo
 
+type ConfirmPhoneNumberRequest struct {
+	// a randomly generated code
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	// the email address associated with the code
+	PhoneNumberId        string   `protobuf:"bytes,2,opt,name=phone_number_id,json=phoneNumberId,proto3" json:"phone_number_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConfirmPhoneNumberRequest) Reset()         { *m = ConfirmPhoneNumberRequest{} }
+func (m *ConfirmPhoneNumberRequest) String() string { return proto.CompactTextString(m) }
+func (*ConfirmPhoneNumberRequest) ProtoMessage()    {}
+func (*ConfirmPhoneNumberRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_11f033f3a571f82c, []int{2}
+}
+
+func (m *ConfirmPhoneNumberRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConfirmPhoneNumberRequest.Unmarshal(m, b)
+}
+func (m *ConfirmPhoneNumberRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConfirmPhoneNumberRequest.Marshal(b, m, deterministic)
+}
+func (m *ConfirmPhoneNumberRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmPhoneNumberRequest.Merge(m, src)
+}
+func (m *ConfirmPhoneNumberRequest) XXX_Size() int {
+	return xxx_messageInfo_ConfirmPhoneNumberRequest.Size(m)
+}
+func (m *ConfirmPhoneNumberRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfirmPhoneNumberRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConfirmPhoneNumberRequest proto.InternalMessageInfo
+
+func (m *ConfirmPhoneNumberRequest) GetCode() string {
+	if m != nil {
+		return m.Code
+	}
+	return ""
+}
+
+func (m *ConfirmPhoneNumberRequest) GetPhoneNumberId() string {
+	if m != nil {
+		return m.PhoneNumberId
+	}
+	return ""
+}
+
+type ConfirmPhoneNumberResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ConfirmPhoneNumberResponse) Reset()         { *m = ConfirmPhoneNumberResponse{} }
+func (m *ConfirmPhoneNumberResponse) String() string { return proto.CompactTextString(m) }
+func (*ConfirmPhoneNumberResponse) ProtoMessage()    {}
+func (*ConfirmPhoneNumberResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_11f033f3a571f82c, []int{3}
+}
+
+func (m *ConfirmPhoneNumberResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConfirmPhoneNumberResponse.Unmarshal(m, b)
+}
+func (m *ConfirmPhoneNumberResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConfirmPhoneNumberResponse.Marshal(b, m, deterministic)
+}
+func (m *ConfirmPhoneNumberResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConfirmPhoneNumberResponse.Merge(m, src)
+}
+func (m *ConfirmPhoneNumberResponse) XXX_Size() int {
+	return xxx_messageInfo_ConfirmPhoneNumberResponse.Size(m)
+}
+func (m *ConfirmPhoneNumberResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConfirmPhoneNumberResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConfirmPhoneNumberResponse proto.InternalMessageInfo
+
 func init() {
-	proto.RegisterType((*EmailAddressConfirmationCode)(nil), "alpacalabs.confirmation.v1.EmailAddressConfirmationCode")
 	proto.RegisterType((*ConfirmEmailAddressRequest)(nil), "alpacalabs.confirmation.v1.ConfirmEmailAddressRequest")
 	proto.RegisterType((*ConfirmEmailAddressResponse)(nil), "alpacalabs.confirmation.v1.ConfirmEmailAddressResponse")
+	proto.RegisterType((*ConfirmPhoneNumberRequest)(nil), "alpacalabs.confirmation.v1.ConfirmPhoneNumberRequest")
+	proto.RegisterType((*ConfirmPhoneNumberResponse)(nil), "alpacalabs.confirmation.v1.ConfirmPhoneNumberResponse")
 }
 
 func init() {
@@ -210,33 +194,30 @@ func init() {
 }
 
 var fileDescriptor_11f033f3a571f82c = []byte{
-	// 407 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x52, 0xbb, 0x0e, 0xd3, 0x30,
-	0x14, 0xc5, 0xe9, 0x03, 0x6a, 0xa4, 0x0a, 0x0c, 0x43, 0x14, 0x5e, 0x55, 0xc4, 0x90, 0xa5, 0x8e,
-	0x52, 0x24, 0x10, 0x63, 0x5a, 0x31, 0x80, 0x3a, 0x54, 0x01, 0x75, 0xa8, 0x2a, 0x55, 0x4e, 0x7c,
-	0x1b, 0x2c, 0x25, 0x75, 0x88, 0x9d, 0x8a, 0x4f, 0x60, 0xe0, 0x23, 0x10, 0x23, 0x7f, 0xc1, 0xca,
-	0x57, 0xa1, 0x38, 0x2d, 0xf5, 0x40, 0x79, 0x6c, 0xb6, 0xef, 0x39, 0xc7, 0xe7, 0x9e, 0x7b, 0xf1,
-	0x53, 0x56, 0x54, 0x2c, 0x63, 0x05, 0x4b, 0x55, 0x98, 0xc9, 0xc3, 0x5e, 0xd4, 0x25, 0xd3, 0x42,
-	0x1e, 0xc2, 0x63, 0x14, 0xb2, 0x4a, 0xd0, 0xaa, 0x96, 0x5a, 0x12, 0xef, 0x82, 0xa2, 0x36, 0x8a,
-	0x1e, 0x23, 0xef, 0x49, 0x2e, 0x65, 0x5e, 0x40, 0x68, 0x90, 0x69, 0xb3, 0x0f, 0xb5, 0x28, 0x41,
-	0x69, 0x56, 0x56, 0x1d, 0xd9, 0xff, 0xec, 0xe0, 0x87, 0xaf, 0x4a, 0x26, 0x8a, 0x98, 0xf3, 0x1a,
-	0x94, 0x5a, 0x58, 0x02, 0x0b, 0xc9, 0x81, 0x8c, 0xb1, 0x23, 0xb8, 0x8b, 0x26, 0x28, 0x18, 0x25,
-	0x8e, 0xe0, 0x24, 0xc0, 0x77, 0xa0, 0xc5, 0xef, 0x58, 0x47, 0xd8, 0x09, 0xee, 0x3a, 0xa6, 0x3a,
-	0x06, 0x4b, 0xe7, 0x35, 0x27, 0x04, 0xf7, 0x33, 0xc9, 0xc1, 0xed, 0x99, 0xaa, 0x39, 0x93, 0x97,
-	0x18, 0x67, 0x35, 0x30, 0x0d, 0x7c, 0xc7, 0xb4, 0xdb, 0x9f, 0xa0, 0xe0, 0xf6, 0xcc, 0xa3, 0x9d,
-	0x49, 0x7a, 0x36, 0x49, 0xdf, 0x9d, 0x4d, 0x26, 0xa3, 0x13, 0x3a, 0xd6, 0x2d, 0x15, 0x3e, 0x56,
-	0xa2, 0x06, 0xd5, 0x52, 0x07, 0x7f, 0xa7, 0x9e, 0xd0, 0xb1, 0x6e, 0x9d, 0x34, 0x0a, 0xb8, 0x3b,
-	0x9c, 0xa0, 0xe0, 0x56, 0x62, 0xce, 0xe4, 0x3e, 0x1e, 0x28, 0xcd, 0x0a, 0x70, 0x6f, 0x9a, 0xc7,
-	0xee, 0xe2, 0x6f, 0xb0, 0x77, 0x4a, 0xc0, 0x0e, 0x25, 0x81, 0x0f, 0x0d, 0x28, 0xfd, 0xab, 0x23,
-	0x64, 0x75, 0xf4, 0xcf, 0x79, 0xf8, 0x8f, 0xf0, 0x83, 0xdf, 0x6a, 0xab, 0x4a, 0x1e, 0x14, 0xcc,
-	0xbe, 0x20, 0x7c, 0xcf, 0x4e, 0xff, 0x2d, 0xd4, 0x47, 0x91, 0x01, 0xf9, 0x74, 0x79, 0xb7, 0x79,
-	0xe4, 0x39, 0xbd, 0x3e, 0x77, 0x7a, 0xbd, 0x09, 0xef, 0xc5, 0x7f, 0xf3, 0x3a, 0x83, 0xfe, 0x8d,
-	0xf9, 0x77, 0x84, 0x1f, 0x67, 0xb2, 0xfc, 0x83, 0xc0, 0xfc, 0xae, 0xdd, 0xc2, 0xaa, 0x9d, 0xca,
-	0x0a, 0x6d, 0xde, 0xe4, 0x42, 0xbf, 0x6f, 0x52, 0x9a, 0xc9, 0x32, 0x8c, 0x0d, 0x77, 0xd9, 0xae,
-	0xb4, 0x19, 0x5a, 0x0d, 0x95, 0x9c, 0xda, 0x2a, 0xd3, 0x5c, 0x86, 0xd7, 0xf7, 0xfe, 0xab, 0xd3,
-	0x8b, 0x97, 0x8b, 0x6f, 0x8e, 0x77, 0xd1, 0xa1, 0xf6, 0x97, 0x74, 0x1d, 0xfd, 0xb0, 0x8b, 0x5b,
-	0xbb, 0xb8, 0x5d, 0x47, 0xe9, 0xd0, 0xfc, 0xfa, 0xec, 0x67, 0x00, 0x00, 0x00, 0xff, 0xff, 0x8c,
-	0xf3, 0xb1, 0x30, 0x5c, 0x03, 0x00, 0x00,
+	// 358 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcd, 0x4a, 0xfb, 0x40,
+	0x14, 0xc5, 0xff, 0xc9, 0x5f, 0x04, 0x07, 0xfc, 0x1a, 0x37, 0x35, 0x7e, 0x20, 0x41, 0xa4, 0x9b,
+	0x4e, 0x48, 0xc5, 0xba, 0x6e, 0x8b, 0x8b, 0x4a, 0x91, 0x52, 0xa1, 0x42, 0x29, 0x84, 0x49, 0x72,
+	0x6d, 0x07, 0x9a, 0xcc, 0x98, 0x49, 0xfb, 0x06, 0x82, 0xcf, 0xe1, 0x4a, 0x7c, 0x0b, 0xb7, 0x3e,
+	0x95, 0x64, 0x52, 0x9b, 0x91, 0xda, 0x62, 0x77, 0xc9, 0x9c, 0x73, 0x7f, 0x67, 0xe6, 0x70, 0xd1,
+	0x39, 0x1d, 0x0b, 0x1a, 0xd0, 0x31, 0xf5, 0xa5, 0x13, 0xf0, 0xf8, 0x91, 0x25, 0x11, 0x4d, 0x19,
+	0x8f, 0x9d, 0xa9, 0xeb, 0x50, 0xc1, 0x88, 0x48, 0x78, 0xca, 0xb1, 0x55, 0xb8, 0x88, 0xee, 0x22,
+	0x53, 0xd7, 0xaa, 0xae, 0x20, 0xe8, 0xff, 0x5e, 0xc0, 0x43, 0xc8, 0x79, 0x76, 0x1f, 0x59, 0xcd,
+	0x5c, 0xba, 0x89, 0x28, 0x1b, 0xd7, 0xc3, 0x30, 0x01, 0x29, 0xbb, 0xf0, 0x34, 0x01, 0x99, 0x62,
+	0x8c, 0x36, 0x32, 0x6f, 0xc9, 0x38, 0x33, 0xca, 0x5b, 0x5d, 0xf5, 0x8d, 0xcb, 0x68, 0x0f, 0x32,
+	0xab, 0x47, 0x73, 0xaf, 0xc7, 0xc2, 0x92, 0xa9, 0xf4, 0x1d, 0xd0, 0x10, 0xad, 0xd0, 0x3e, 0x41,
+	0x47, 0xbf, 0xb2, 0xa5, 0xe0, 0xb1, 0x04, 0xfb, 0x01, 0x1d, 0xce, 0xe4, 0xce, 0x88, 0xc7, 0x70,
+	0x37, 0x89, 0x7c, 0x48, 0x56, 0x25, 0x5f, 0xa0, 0x5d, 0x91, 0x39, 0xbd, 0x58, 0x59, 0x8b, 0xe0,
+	0x6d, 0x51, 0x00, 0x5a, 0xa1, 0x7d, 0x3c, 0x7f, 0xd3, 0x0f, 0x70, 0x1e, 0x5b, 0x7d, 0x33, 0xd1,
+	0x41, 0x53, 0x6b, 0xe3, 0x1e, 0x92, 0x29, 0x0b, 0x00, 0xbf, 0x18, 0xf3, 0x73, 0xfd, 0xba, 0xb8,
+	0x46, 0x96, 0x57, 0x4e, 0x96, 0x77, 0x67, 0x5d, 0xaf, 0x3d, 0x37, 0xeb, 0xe5, 0x1f, 0x7e, 0x36,
+	0x10, 0x5e, 0x7c, 0x01, 0xbe, 0xfa, 0x03, 0x71, 0xb1, 0x4a, 0xab, 0xb6, 0xee, 0xd8, 0xf7, 0x3d,
+	0x1a, 0x1f, 0x06, 0x3a, 0x0d, 0x78, 0xb4, 0x62, 0xbe, 0xb1, 0xaf, 0x57, 0xd9, 0xc9, 0x56, 0xaa,
+	0x63, 0xf4, 0x6f, 0x87, 0x2c, 0x1d, 0x4d, 0x7c, 0x12, 0xf0, 0xc8, 0xa9, 0xab, 0xd9, 0x76, 0xb6,
+	0x93, 0x6a, 0xe3, 0x12, 0x10, 0xbc, 0xa2, 0x53, 0x2a, 0x43, 0xee, 0x2c, 0x5f, 0xdc, 0x57, 0xf3,
+	0x7f, 0xbd, 0xdd, 0x7c, 0x37, 0xad, 0x82, 0x43, 0xf4, 0x48, 0xd2, 0x73, 0x3f, 0x75, 0x71, 0xa0,
+	0x8b, 0x83, 0x9e, 0xeb, 0x6f, 0xaa, 0xd4, 0xcb, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa8, 0xe7,
+	0x61, 0x63, 0x5f, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -252,6 +233,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ConfirmationServiceClient interface {
 	ConfirmEmailAddress(ctx context.Context, in *ConfirmEmailAddressRequest, opts ...grpc.CallOption) (*ConfirmEmailAddressResponse, error)
+	ConfirmPhoneNumber(ctx context.Context, in *ConfirmPhoneNumberRequest, opts ...grpc.CallOption) (*ConfirmPhoneNumberResponse, error)
 }
 
 type confirmationServiceClient struct {
@@ -271,9 +253,19 @@ func (c *confirmationServiceClient) ConfirmEmailAddress(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *confirmationServiceClient) ConfirmPhoneNumber(ctx context.Context, in *ConfirmPhoneNumberRequest, opts ...grpc.CallOption) (*ConfirmPhoneNumberResponse, error) {
+	out := new(ConfirmPhoneNumberResponse)
+	err := c.cc.Invoke(ctx, "/alpacalabs.confirmation.v1.ConfirmationService/ConfirmPhoneNumber", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConfirmationServiceServer is the server API for ConfirmationService service.
 type ConfirmationServiceServer interface {
 	ConfirmEmailAddress(context.Context, *ConfirmEmailAddressRequest) (*ConfirmEmailAddressResponse, error)
+	ConfirmPhoneNumber(context.Context, *ConfirmPhoneNumberRequest) (*ConfirmPhoneNumberResponse, error)
 }
 
 func RegisterConfirmationServiceServer(s *grpc.Server, srv ConfirmationServiceServer) {
@@ -298,6 +290,24 @@ func _ConfirmationService_ConfirmEmailAddress_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConfirmationService_ConfirmPhoneNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmPhoneNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConfirmationServiceServer).ConfirmPhoneNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alpacalabs.confirmation.v1.ConfirmationService/ConfirmPhoneNumber",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConfirmationServiceServer).ConfirmPhoneNumber(ctx, req.(*ConfirmPhoneNumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ConfirmationService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alpacalabs.confirmation.v1.ConfirmationService",
 	HandlerType: (*ConfirmationServiceServer)(nil),
@@ -305,6 +315,10 @@ var _ConfirmationService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfirmEmailAddress",
 			Handler:    _ConfirmationService_ConfirmEmailAddress_Handler,
+		},
+		{
+			MethodName: "ConfirmPhoneNumber",
+			Handler:    _ConfirmationService_ConfirmPhoneNumber_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
